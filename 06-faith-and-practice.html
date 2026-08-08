@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>محور ٦ · الدين والالتزام</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#132630;
+    --ink-soft:#5b7783;
+    --bg:#e5ebec;
+    --card:#ffffff;
+    --line:#d2dcde;
+    --teal:#0e6b68;
+    --brass:#9d6b17;
+    --brass-tint:#f6efe1;
+    --brick:#b0432f;
+    --radius:14px;
+    --sans:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+    --display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:400;
+    line-height:1.7;
+    -webkit-text-size-adjust:100%;
+    padding-bottom:92px;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
+
+  /* ---------- header ---------- */
+  header.hero{
+    background:var(--ink);
+    color:#f2f6f6;
+    padding:34px 0 26px;
+    border-bottom:6px solid var(--brass);
+  }
+  .eyebrow{
+    font-size:12px;letter-spacing:.14em;color:#8fb0b4;
+    text-transform:none;margin:0 0 10px;
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(28px,7vw,42px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 em{font-style:normal;color:#e8c072}
+  .lede{margin:0;color:#c3d5d7;font-size:15.5px;max-width:52ch}
+
+  /* ---------- how to ---------- */
+  .howto{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 8px;margin-top:-18px;position:relative;z-index:2;
+  }
+  .howto h2{font-family:var(--display);font-size:17px;margin:0 0 10px}
+  .steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  .steps li{
+    counter-increment:s;position:relative;padding:0 34px 12px 0;font-size:14.5px;color:var(--ink);
+  }
+  .steps li::before{
+    content:counter(s);position:absolute;right:0;top:2px;
+    width:24px;height:24px;border-radius:7px;background:var(--brass-tint);color:var(--brass);
+    font-size:13px;font-weight:600;display:grid;place-items:center;font-family:var(--sans);
+  }
+
+  /* ---------- names ---------- */
+  .names{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .names label{flex:1;min-width:140px;font-size:12.5px;color:var(--ink-soft)}
+  .names input{
+    display:block;width:100%;margin-top:4px;padding:9px 11px;font-family:var(--sans);font-size:15px;
+    border:1px solid var(--line);border-radius:9px;background:#fbfdfd;color:var(--ink);
+  }
+  .names input:focus{outline:2px solid var(--teal);outline-offset:1px}
+
+  /* ---------- tabs ---------- */
+  nav.tabs{
+    display:flex;gap:6px;margin:18px 0 4px;background:#dbe3e4;padding:5px;border-radius:12px;
+  }
+  nav.tabs button{
+    flex:1;border:0;background:transparent;font-family:var(--sans);font-size:14.5px;font-weight:500;
+    color:var(--ink-soft);padding:9px 6px;border-radius:9px;cursor:pointer;transition:background .15s,color .15s;
+  }
+  nav.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(19,38,48,.08)}
+
+  /* ---------- axis card ---------- */
+  .axis{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    margin:14px 0;overflow:hidden;
+  }
+  .axis > .head{
+    width:100%;text-align:right;padding:16px 16px 14px;cursor:pointer;
+    font-family:var(--sans);display:block;-webkit-tap-highlight-color:transparent;
+  }
+  .axis > .head:focus-visible{outline:2px solid var(--teal);outline-offset:-3px}
+  .axis .kt{display:flex;align-items:baseline;gap:8px;justify-content:space-between}
+  .axis h3{font-family:var(--display);font-size:19px;margin:0;font-weight:600;color:var(--ink)}
+  .axis .count{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+  .axis .hint{margin:4px 0 0;font-size:13px;color:var(--ink-soft)}
+
+  /* signature: mosaic strip */
+  .strip{display:flex;gap:3px;margin-top:11px;flex-wrap:wrap}
+  .tile{width:13px;height:13px;border-radius:3px;background:#e6ecec;border:1px solid #d6dfe0;transition:background .2s,border-color .2s}
+  .tile.done{background:var(--brass);border-color:var(--brass)}
+  .tile.same{background:var(--teal);border-color:var(--teal)}
+  .tile.diff{background:var(--brick);border-color:var(--brick)}
+  .tile.talk{background:#e8c072;border-color:#d3a949}
+
+  .body{display:block;padding:2px 16px 16px;border-top:1px solid var(--line)}
+  .axis.collapsed .body{display:none}
+
+  .q{padding:16px 0;border-bottom:1px dashed var(--line)}
+  .q:last-child{border-bottom:0;padding-bottom:4px}
+  .q .num{font-size:11.5px;color:var(--ink-soft);letter-spacing:.06em}
+  .q p{margin:2px 0 11px;font-size:16px;font-weight:500;line-height:1.6}
+  .opts{display:flex;flex-wrap:wrap;gap:7px}
+  .opt{position:relative;display:inline-flex;cursor:pointer}
+  .opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+  .opt span{
+    border:1px solid var(--line);background:#fbfdfd;color:var(--ink);font-size:14px;
+    padding:8px 13px;border-radius:999px;transition:background .13s,border-color .13s,color .13s;
+    display:block;
+  }
+  .opt:hover span{border-color:#b8c7c9}
+  .opt input:checked + span{background:var(--brass-tint);border-color:var(--brass);color:#7d5410;font-weight:500}
+  .opt input:focus-visible + span{outline:2px solid var(--teal);outline-offset:2px}
+
+  /* ---------- open questions ---------- */
+  .open-q{margin:14px 0 0}
+  .open-q p{font-size:16px;font-weight:500;margin:0 0 8px}
+  .open-q textarea{
+    width:100%;min-height:74px;padding:10px 12px;font-family:var(--sans);font-size:15px;line-height:1.6;
+    border:1px solid var(--line);border-radius:10px;background:#fbfdfd;color:var(--ink);resize:vertical;
+  }
+  .open-q textarea:focus{outline:2px solid var(--teal);outline-offset:1px}
+  .note{
+    background:#f4f8f8;border:1px solid var(--line);border-right:3px solid var(--teal);
+    border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink-soft);margin:14px 0;
+  }
+
+  /* ---------- bottom bar ---------- */
+  .bar{
+    position:fixed;inset-inline:0;bottom:0;background:rgba(19,38,48,.97);color:#eef4f4;
+    padding:11px 0;z-index:9;backdrop-filter:blur(6px);
+  }
+  .bar .wrap{display:flex;align-items:center;gap:12px}
+  .prog{flex:1}
+  .prog .track{height:6px;background:#31505c;border-radius:99px;overflow:hidden}
+  .prog .fill{height:100%;width:0;background:var(--brass);transition:width .25s}
+  .prog span{font-size:12.5px;color:#a9c3c6;display:block;margin-top:4px}
+  .btn{
+    border:0;border-radius:10px;padding:11px 15px;font-family:var(--sans);font-size:14.5px;font-weight:500;
+    background:var(--brass);color:#fff;cursor:pointer;white-space:nowrap;
+  }
+  .btn.ghost{background:transparent;border:1px solid #4d6b76;color:#dceaea}
+  .btn:focus-visible{outline:2px solid #e8c072;outline-offset:2px}
+
+  /* ---------- compare ---------- */
+  .panel{display:none}
+  .panel.active{display:block}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:14px 0}
+  .box h2{font-family:var(--display);font-size:19px;margin:0 0 8px}
+  .box p.sub{margin:0 0 12px;font-size:14px;color:var(--ink-soft)}
+  .box textarea{
+    width:100%;min-height:88px;font-family:"IBM Plex Sans Arabic",monospace;font-size:13px;direction:ltr;text-align:left;
+    padding:10px;border:1px solid var(--line);border-radius:10px;background:#fbfdfd;color:var(--ink);
+  }
+  .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .row .btn{flex:1;min-width:130px}
+  .btn.dark{background:var(--ink)}
+  .score{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 6px}
+  .stat{flex:1;min-width:96px;background:#f4f8f8;border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+  .stat b{display:block;font-family:var(--display);font-size:26px;line-height:1.2}
+  .stat small{font-size:12px;color:var(--ink-soft)}
+  .stat.s-same b{color:var(--teal)}
+  .stat.s-diff b{color:var(--brick)}
+  .stat.s-talk b{color:var(--brass)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft);margin:8px 0 0}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}
+  .diff{padding:13px 0;border-bottom:1px dashed var(--line)}
+  .diff:last-child{border-bottom:0}
+  .diff p{margin:0 0 8px;font-size:15.5px;font-weight:500}
+  .ans{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:#fbfdfd}
+  .pill b{font-weight:600;color:var(--ink-soft);font-size:12px}
+  .pill.a{border-color:#a8c9c7;background:#eef6f6}
+  .pill.b{border-color:#e0c9a0;background:#fbf4e7}
+  .empty{font-size:14.5px;color:var(--ink-soft)}
+  footer{padding:26px 0 10px;font-size:12.5px;color:var(--ink-soft);text-align:center}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .bar,nav.tabs,.howto,.names,header.hero{position:static}
+    .bar,nav.tabs{display:none}
+    .axis .body{display:block!important}
+    .axis{break-inside:avoid;border-color:#bbb}
+    .opt span{padding:4px 9px}
+    .panel{display:block!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">المحور ٦ من ١٠</p>
+    <h1>الدين والالتزام</h1>
+    <p class="lede">مش امتحان — الفكرة نعرف مستوى كل واحد فعلًا فين. ٢٧ سؤال اختيار و٣ للنقاش — قعدة واحدة تكفيهم.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="howto">
+    <h2>إزاي نستخدمه</h2>
+    <ol class="steps">
+      <li>كل واحد يفتح الصفحة على موبايله ويجاوب لوحده — من غير ما يشوف إجابات التاني. مش لازم تخلّصوا الملف كله؛ اتفقوا على محور واحد واجاوبوه.</li>
+      <li>بعد ما تخلّص، اضغط «انسخ كود إجاباتي» وابعته للطرف التاني على واتساب.</li>
+      <li>من تبويب «المقارنة»، الزق الكود اللي وصلك واضغط «قارن».</li>
+      <li>اقعدوا اتكلموا في المختلف عليه بس — ده اللي محتاج وقتكم.</li>
+    </ol>
+    <div class="names">
+      <label>اسمي
+        <input id="nameA" type="text" placeholder="مثلًا: عمرو">
+      </label>
+      <label>اسم الطرف التاني
+        <input id="nameB" type="text" placeholder="مثلًا: ...">
+      </label>
+    </div>
+  </section>
+
+  <noscript><p class="note" style="border-right-color:var(--brick)">تقدر تقرا الأسئلة وتختار إجاباتك عادي، بس المقارنة محتاجة تفتح الملف من متصفح (كروم أو سفاري).</p></noscript>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-q" aria-selected="true" onclick="showTab('q')">الأسئلة</button>
+    <button role="tab" id="tab-c" aria-selected="false" onclick="showTab('c')">المقارنة</button>
+  </nav>
+
+  <div id="panel-q" class="panel active">
+    <div id="axes"><section class="axis" id="ax0"><div class="head" role="button" tabindex="0" onclick="toggleAxis(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAxis(0);}"><span class="kt"><h3>الدين والالتزام</h3><span class="count" id="cnt0">٠ / ٢٧</span></span><p class="hint">مش امتحان — الفكرة نعرف مستوى كل واحد فعلًا فين</p><div class="strip"><span class="tile" data-t="0-0"></span><span class="tile" data-t="0-1"></span><span class="tile" data-t="0-2"></span><span class="tile" data-t="0-3"></span><span class="tile" data-t="0-4"></span><span class="tile" data-t="0-5"></span><span class="tile" data-t="0-6"></span><span class="tile" data-t="0-7"></span><span class="tile" data-t="0-8"></span><span class="tile" data-t="0-9"></span><span class="tile" data-t="0-10"></span><span class="tile" data-t="0-11"></span><span class="tile" data-t="0-12"></span><span class="tile" data-t="0-13"></span><span class="tile" data-t="0-14"></span><span class="tile" data-t="0-15"></span><span class="tile" data-t="0-16"></span><span class="tile" data-t="0-17"></span><span class="tile" data-t="0-18"></span><span class="tile" data-t="0-19"></span><span class="tile" data-t="0-20"></span><span class="tile" data-t="0-21"></span><span class="tile" data-t="0-22"></span><span class="tile" data-t="0-23"></span><span class="tile" data-t="0-24"></span><span class="tile" data-t="0-25"></span><span class="tile" data-t="0-26"></span></div></div><div class="body"><div class="q"><div class="num">١</div><p>الصلاة في وقتها التزام أساسي عندنا الاتنين</p><div class="opts"><label class="opt"><input type="radio" name="0-0" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-0" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-0" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-0" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٢</div><p>ورد يومي من القرآن حاجة نفسي نحافظ عليها كعادة مشتركة</p><div class="opts"><label class="opt"><input type="radio" name="0-1" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-1" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-1" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-1" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٣</div><p>الحلال والحرام في مصادر الدخل خط أحمر مهما كانت الظروف</p><div class="opts"><label class="opt"><input type="radio" name="0-2" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-2" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-2" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-2" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٤</div><p>الاختلاف بين الزوجين في تفاصيل دينية فرعية (زي رأي فقهي مختلف فيه، أو أسلوب عبادة شخصي) طبيعي ومفيش فيه مشكلة</p><div class="opts"><label class="opt"><input type="radio" name="0-3" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-3" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-3" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-3" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٥</div><p>لكن الاختلاف في أساسيات متفق عليها من الأول (الصلاة، الحلال والحرام، الالتزام بالمظهر الشرعي المتفق عليه) محتاج نتفق عليه قبل الجواز، مش نأجله لبعده</p><div class="opts"><label class="opt"><input type="radio" name="0-4" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-4" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-4" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-4" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٦</div><p>التزامي بالنقاب قرار نابع من اقتناع شخصي داخلي، مش من ضغط ظرف معين (زي الشغل أو المجتمع)، وده يخليه ثابت عندي مهما تغيّرت الظروف</p><div class="opts"><label class="opt"><input type="radio" name="0-5" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-5" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-5" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-5" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٧</div><p>عندي حدود واضحة في التعامل مع الجنس الآخر في المناسبات والشغل والمجاملات الاجتماعية، ومش هتنازل عنها</p><div class="opts"><label class="opt"><input type="radio" name="0-6" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-6" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-6" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-6" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٨</div><p>الاستخارة والاستشارة قبل القرارات الكبيرة عادة عندي</p><div class="opts"><label class="opt"><input type="radio" name="0-7" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-7" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-7" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-7" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٩</div><p>لو حد فينا فتر إيمانيًا، دور التاني إنه يشد إيده بهدوء مش يحاسبه</p><div class="opts"><label class="opt"><input type="radio" name="0-8" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-8" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-8" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-8" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">١٠</div><p>الحج والعمرة هدف بنخطط له ماليًا</p><div class="opts"><label class="opt"><input type="radio" name="0-9" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-9" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-9" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-9" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">١١</div><p>إيه أهم حاجة بالنسبة لك في الالتزام الديني عند شريكك؟</p><div class="opts"><label class="opt"><input type="radio" name="0-10" value="0" onclick="pick(this)"><span>إنه يعمل الأساسيات بثبات (صلاة، حلال) بدون تقصير متكرر</span></label><label class="opt"><input type="radio" name="0-10" value="1" onclick="pick(this)"><span>إنه صادق معايا لو قصّر، مش يتظاهر بحاجة مش موجودة</span></label><label class="opt"><input type="radio" name="0-10" value="2" onclick="pick(this)"><span>إنه عنده رغبة حقيقية يتطور ويتحسن، مهما كان مستواه دلوقتي</span></label><label class="opt"><input type="radio" name="0-10" value="3" onclick="pick(this)"><span>إنه يتقبّلني ومايحاسبنيش لو فترت في وقت ما</span></label><label class="opt"><input type="radio" name="0-10" value="4" onclick="pick(this)"><span>جميع ما سبق</span></label></div></div><div class="q"><div class="num">١٢</div><p>حضور دروس علم أو حلقات</p><div class="opts"><label class="opt"><input type="radio" name="0-11" value="0" onclick="pick(this)"><span>بشكل منتظم</span></label><label class="opt"><input type="radio" name="0-11" value="1" onclick="pick(this)"><span>من وقت للتاني</span></label><label class="opt"><input type="radio" name="0-11" value="2" onclick="pick(this)"><span>أونلاين يكفي</span></label><label class="opt"><input type="radio" name="0-11" value="3" onclick="pick(this)"><span>مش من أولوياتي</span></label></div></div><div class="q"><div class="num">١٣</div><p>تربية الأطفال دينيًا</p><div class="opts"><label class="opt"><input type="radio" name="0-12" value="0" onclick="pick(this)"><span>مركز تحفيظ قرآن</span></label><label class="opt"><input type="radio" name="0-12" value="1" onclick="pick(this)"><span>بالبيت والقدوة</span></label><label class="opt"><input type="radio" name="0-12" value="2" onclick="pick(this)"><span>مدرسة إسلامية</span></label><label class="opt"><input type="radio" name="0-12" value="3" onclick="pick(this)"><span>مزيج من ده كله</span></label></div></div><div class="q"><div class="num">١٤</div><p>الأغاني والأفلام والمسلسلات</p><div class="opts"><label class="opt"><input type="radio" name="0-13" value="0" onclick="pick(this)"><span>عادي في حدود معقولة</span></label><label class="opt"><input type="radio" name="0-13" value="1" onclick="pick(this)"><span>أُقلّل منها لأسباب دينية</span></label><label class="opt"><input type="radio" name="0-13" value="2" onclick="pick(this)"><span>أتجنبها تمامًا</span></label><label class="opt"><input type="radio" name="0-13" value="3" onclick="pick(this)"><span>مش قضية أساسية عندي</span></label></div></div><div class="q"><div class="num">١٥</div><p>بحب أستشير شريكي في أي قرار ديني بيخصنا الاتنين قبل ما أطبّقه، مش أطبّقه وأخبره بعدين</p><div class="opts"><label class="opt"><input type="radio" name="0-14" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-14" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-14" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-14" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">١٦</div><p>لو أحد الطرفين قرر يزوّد التزامه الديني بعد الجواز (في العبادة أو المظهر)، الطرف التاني يدعمه ومايكونش عائق</p><div class="opts"><label class="opt"><input type="radio" name="0-15" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-15" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-15" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-15" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">١٧</div><p>بحب إن بيتنا يكون فيه جو روحاني (قرآن، ذكر) مسموع بشكل طبيعي في الأيام العادية</p><div class="opts"><label class="opt"><input type="radio" name="0-16" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-16" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-16" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-16" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">١٨</div><p>الصدقة بشكل دوري عادة أحب نحافظ عليها ولو بمبلغ صغير</p><div class="opts"><label class="opt"><input type="radio" name="0-17" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-17" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-17" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-17" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">١٩</div><p>الاستمرار في النقاب بعد الجواز، في المناسبات والظروف المختلفة (شغل، عزومة عيلة، صور)</p><div class="opts"><label class="opt"><input type="radio" name="0-18" value="0" onclick="pick(this)"><span>التزام أساسي وثابت عندي في كل الحالات ومهما اختلفت الظروف</span></label><label class="opt"><input type="radio" name="0-18" value="1" onclick="pick(this)"><span>بنتفق سوا حسب كل مناسبة</span></label><label class="opt"><input type="radio" name="0-18" value="2" onclick="pick(this)"><span>أفضّل الالتزام الكامل بس ممكن أتفهم استثناءات محدودة</span></label><label class="opt"><input type="radio" name="0-18" value="3" onclick="pick(this)"><span>مش قضية أساسية عندي</span></label></div></div><div class="q"><div class="num">٢٠</div><p>شكل اللحية عند الزوج (طولها، تهذيبها)</p><div class="opts"><label class="opt"><input type="radio" name="0-19" value="0" onclick="pick(this)"><span>إطالتها كاملة والحفاظ عليها</span></label><label class="opt"><input type="radio" name="0-19" value="1" onclick="pick(this)"><span>تهذيبها بشكل مرتب باستمرار</span></label><label class="opt"><input type="radio" name="0-19" value="2" onclick="pick(this)"><span>حسب ظروف الشغل والمناسبة</span></label><label class="opt"><input type="radio" name="0-19" value="3" onclick="pick(this)"><span>مش قضية أساسية عندي</span></label></div></div><div class="q"><div class="num">٢١</div><p>الصور الشخصية بعد الجواز (للعيلة أو السوشيال ميديا)</p><div class="opts"><label class="opt"><input type="radio" name="0-20" value="0" onclick="pick(this)"><span>عادي في المناسبات العادية</span></label><label class="opt"><input type="radio" name="0-20" value="1" onclick="pick(this)"><span>للعيلة بس، مش للسوشيال ميديا</span></label><label class="opt"><input type="radio" name="0-20" value="2" onclick="pick(this)"><span>نحافظ على خصوصية كاملة</span></label><label class="opt"><input type="radio" name="0-20" value="3" onclick="pick(this)"><span>حسب كل مناسبة على حدة</span></label></div></div><div class="q"><div class="num">٢٢</div><p>قراءة القرآن وتفسيره كعادة</p><div class="opts"><label class="opt"><input type="radio" name="0-21" value="0" onclick="pick(this)"><span>يوميًا بشكل منتظم</span></label><label class="opt"><input type="radio" name="0-21" value="1" onclick="pick(this)"><span>أسبوعيًا</span></label><label class="opt"><input type="radio" name="0-21" value="2" onclick="pick(this)"><span>بشكل مكثف في رمضان بس</span></label><label class="opt"><input type="radio" name="0-21" value="3" onclick="pick(this)"><span>حسب الوقت المتاح</span></label></div></div><div class="q"><div class="num">٢٣</div><p>الحفاظ على صلاة الجماعة أو صلاة الجمعة (للرجل) / صلاة الجماعة في البيت</p><div class="opts"><label class="opt"><input type="radio" name="0-22" value="0" onclick="pick(this)"><span>التزام أساسي دايمًا</span></label><label class="opt"><input type="radio" name="0-22" value="1" onclick="pick(this)"><span>بحاول قد ما أقدر</span></label><label class="opt"><input type="radio" name="0-22" value="2" onclick="pick(this)"><span>حسب ظروف الشغل</span></label><label class="opt"><input type="radio" name="0-22" value="3" onclick="pick(this)"><span>مش دايمًا</span></label></div></div><div class="q"><div class="num">٢٤</div><p>لبس الجوانتي (القفازات) مع النقاب</p><div class="opts"><label class="opt"><input type="radio" name="0-23" value="0" onclick="pick(this)"><span>دايمًا</span></label><label class="opt"><input type="radio" name="0-23" value="1" onclick="pick(this)"><span>في المناسبات والأماكن العامة بس</span></label><label class="opt"><input type="radio" name="0-23" value="2" onclick="pick(this)"><span>أحيانًا حسب الظرف</span></label><label class="opt"><input type="radio" name="0-23" value="3" onclick="pick(this)"><span>لأ</span></label></div></div><div class="q"><div class="num">٢٥</div><p>صلاة الفجر في المسجد أولوية أحاول أحافظ عليها</p><div class="opts"><label class="opt"><input type="radio" name="0-24" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-24" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-24" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-24" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">٢٦</div><p>دوري كزوج في قيادة بيتنا دينيًا</p><div class="opts"><label class="opt"><input type="radio" name="0-25" value="0" onclick="pick(this)"><span>نتشارك المسؤولية بالتساوي</span></label><label class="opt"><input type="radio" name="0-25" value="1" onclick="pick(this)"><span>نتحاور ونتشارك في القرارات، ولو حصل خلاف بعد النقاش رأي الزوج يكون الفيصل بشرط عدم مخالفته لحكم شرعي واضح</span></label><label class="opt"><input type="radio" name="0-25" value="2" onclick="pick(this)"><span>أكون المسؤول الأول عن التوجيه الديني في البيت</span></label><label class="opt"><input type="radio" name="0-25" value="3" onclick="pick(this)"><span>كل واحد يهتم بنفسه ويدعم التاني</span></label><label class="opt"><input type="radio" name="0-25" value="4" onclick="pick(this)"><span>مش مفكر في الموضوع كده</span></label></div></div><div class="q"><div class="num">٢٧</div><p>الزي المفضل عندي في المناسبات والحياة اليومية</p><div class="opts"><label class="opt"><input type="radio" name="0-26" value="0" onclick="pick(this)"><span>الجلابية أو الزي الشرعي في كل وقت</span></label><label class="opt"><input type="radio" name="0-26" value="1" onclick="pick(this)"><span>الزي العادي (بنطلون وقميص) الملتزم بالضوابط الشرعية</span></label><label class="opt"><input type="radio" name="0-26" value="2" onclick="pick(this)"><span>حسب المكان والمناسبة</span></label><label class="opt"><input type="radio" name="0-26" value="3" onclick="pick(this)"><span>مش قضية أساسية عندي</span></label></div></div></div></section></div>
+
+    <div class="box">
+      <h2>أسئلة مفتوحة — للكلام مش للاختيار</h2>
+      <p class="sub">الأسئلة دي مش داخلة في المقارنة. اكتبوا إجاباتكم أو اقروها لبعض بصوت عالي — دي أحلى جزء.</p>
+      <div id="openqs"><div class="open-q"><p>١. إيه الدعوة اللي بتدعي بيها لبيتنا؟</p><textarea rows="2"></textarea></div><div class="open-q"><p>٢. إيه العادة الدينية اللي نفسك نبدأها من أول يوم في بيتنا؟</p><textarea rows="2"></textarea></div><div class="open-q"><p>٣. إيه العبادة أو العادة الدينية اللي حاسس/ة إنها الأقرب لقلبك؟</p><textarea rows="2"></textarea></div></div>
+      <p class="note" style="margin-bottom:0">اللي بتكتبه هنا بيضيع لو قفلت الصفحة، فلو حابب تحتفظ بيه انسخه لنفسك.</p>
+    </div>
+
+    <div class="box">
+      <h2>الكود بتاعي</h2>
+      <p class="sub">ده اختصار لكل إجاباتك. ابعته للطرف التاني، وخده لنفسك كنسخة احتياطية.</p>
+      <textarea id="myCode" rows="3"></textarea>
+      <div class="row">
+        <button class="btn" onclick="copyCode()">انسخ الكود</button>
+        <button class="btn dark" onclick="window.print()">اطبع الأسئلة على ورق</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-c" class="panel">
+    <div class="box">
+      <h2>الزق كود الطرف التاني</h2>
+      <p class="sub">لازم تكون جاوبت انت الأول، وبعدين تحط الكود اللي وصلك هنا.</p>
+      <textarea id="theirCode" rows="3" placeholder="M6..."></textarea>
+      <div class="row">
+        <button class="btn" onclick="doCompare()">قارن</button>
+        <button class="btn ghost" style="border-color:var(--line);color:var(--ink-soft)" onclick="clearCompare()">امسح</button>
+      </div>
+      <p id="cmpMsg" class="empty" style="margin-top:10px"></p>
+    </div>
+    <div id="cmpOut"></div>
+  </div>
+
+  <footer>اتفقوا على المهم، وسيبوا الباقي للحياة. بالتوفيق ✦</footer>
+</div>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="prog">
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <span id="progTxt">٠ من ٠</span>
+    </div>
+    <button class="btn" onclick="copyCode()">انسخ كود إجاباتي</button>
+  </div>
+</div>
+
+<script>
+const AGREE = ["أتفق","لا أتفق","متردد","مش عارف/عارفة"];
+const AXES = [{"key":"الدين والالتزام","hint":"مش امتحان — الفكرة نعرف مستوى كل واحد فعلًا فين","qs":[{"t":"a","q":"الصلاة في وقتها التزام أساسي عندنا الاتنين"},{"t":"a","q":"ورد يومي من القرآن حاجة نفسي نحافظ عليها كعادة مشتركة"},{"t":"a","q":"الحلال والحرام في مصادر الدخل خط أحمر مهما كانت الظروف"},{"t":"a","q":"الاختلاف بين الزوجين في تفاصيل دينية فرعية (زي رأي فقهي مختلف فيه، أو أسلوب عبادة شخصي) طبيعي ومفيش فيه مشكلة"},{"t":"a","q":"لكن الاختلاف في أساسيات متفق عليها من الأول (الصلاة، الحلال والحرام، الالتزام بالمظهر الشرعي المتفق عليه) محتاج نتفق عليه قبل الجواز، مش نأجله لبعده"},{"t":"a","q":"التزامي بالنقاب قرار نابع من اقتناع شخصي داخلي، مش من ضغط ظرف معين (زي الشغل أو المجتمع)، وده يخليه ثابت عندي مهما تغيّرت الظروف"},{"t":"a","q":"عندي حدود واضحة في التعامل مع الجنس الآخر في المناسبات والشغل والمجاملات الاجتماعية، ومش هتنازل عنها"},{"t":"a","q":"الاستخارة والاستشارة قبل القرارات الكبيرة عادة عندي"},{"t":"a","q":"لو حد فينا فتر إيمانيًا، دور التاني إنه يشد إيده بهدوء مش يحاسبه"},{"t":"a","q":"الحج والعمرة هدف بنخطط له ماليًا"},{"t":"m","q":"إيه أهم حاجة بالنسبة لك في الالتزام الديني عند شريكك؟","o":["إنه يعمل الأساسيات بثبات (صلاة، حلال) بدون تقصير متكرر","إنه صادق معايا لو قصّر، مش يتظاهر بحاجة مش موجودة","إنه عنده رغبة حقيقية يتطور ويتحسن، مهما كان مستواه دلوقتي","إنه يتقبّلني ومايحاسبنيش لو فترت في وقت ما","جميع ما سبق"]},{"t":"m","q":"حضور دروس علم أو حلقات","o":["بشكل منتظم","من وقت للتاني","أونلاين يكفي","مش من أولوياتي"]},{"t":"m","q":"تربية الأطفال دينيًا","o":["مركز تحفيظ قرآن","بالبيت والقدوة","مدرسة إسلامية","مزيج من ده كله"]},{"t":"m","q":"الأغاني والأفلام والمسلسلات","o":["عادي في حدود معقولة","أُقلّل منها لأسباب دينية","أتجنبها تمامًا","مش قضية أساسية عندي"]},{"t":"a","q":"بحب أستشير شريكي في أي قرار ديني بيخصنا الاتنين قبل ما أطبّقه، مش أطبّقه وأخبره بعدين"},{"t":"a","q":"لو أحد الطرفين قرر يزوّد التزامه الديني بعد الجواز (في العبادة أو المظهر)، الطرف التاني يدعمه ومايكونش عائق"},{"t":"a","q":"بحب إن بيتنا يكون فيه جو روحاني (قرآن، ذكر) مسموع بشكل طبيعي في الأيام العادية"},{"t":"a","q":"الصدقة بشكل دوري عادة أحب نحافظ عليها ولو بمبلغ صغير"},{"t":"m","q":"الاستمرار في النقاب بعد الجواز، في المناسبات والظروف المختلفة (شغل، عزومة عيلة، صور)","o":["التزام أساسي وثابت عندي في كل الحالات ومهما اختلفت الظروف","بنتفق سوا حسب كل مناسبة","أفضّل الالتزام الكامل بس ممكن أتفهم استثناءات محدودة","مش قضية أساسية عندي"]},{"t":"m","q":"شكل اللحية عند الزوج (طولها، تهذيبها)","o":["إطالتها كاملة والحفاظ عليها","تهذيبها بشكل مرتب باستمرار","حسب ظروف الشغل والمناسبة","مش قضية أساسية عندي"]},{"t":"m","q":"الصور الشخصية بعد الجواز (للعيلة أو السوشيال ميديا)","o":["عادي في المناسبات العادية","للعيلة بس، مش للسوشيال ميديا","نحافظ على خصوصية كاملة","حسب كل مناسبة على حدة"]},{"t":"m","q":"قراءة القرآن وتفسيره كعادة","o":["يوميًا بشكل منتظم","أسبوعيًا","بشكل مكثف في رمضان بس","حسب الوقت المتاح"]},{"t":"m","q":"الحفاظ على صلاة الجماعة أو صلاة الجمعة (للرجل) / صلاة الجماعة في البيت","o":["التزام أساسي دايمًا","بحاول قد ما أقدر","حسب ظروف الشغل","مش دايمًا"]},{"t":"m","q":"لبس الجوانتي (القفازات) مع النقاب","o":["دايمًا","في المناسبات والأماكن العامة بس","أحيانًا حسب الظرف","لأ"]},{"t":"a","q":"صلاة الفجر في المسجد أولوية أحاول أحافظ عليها"},{"t":"m","q":"دوري كزوج في قيادة بيتنا دينيًا","o":["نتشارك المسؤولية بالتساوي","نتحاور ونتشارك في القرارات، ولو حصل خلاف بعد النقاش رأي الزوج يكون الفيصل بشرط عدم مخالفته لحكم شرعي واضح","أكون المسؤول الأول عن التوجيه الديني في البيت","كل واحد يهتم بنفسه ويدعم التاني","مش مفكر في الموضوع كده"]},{"t":"m","q":"الزي المفضل عندي في المناسبات والحياة اليومية","o":["الجلابية أو الزي الشرعي في كل وقت","الزي العادي (بنطلون وقميص) الملتزم بالضوابط الشرعية","حسب المكان والمناسبة","مش قضية أساسية عندي"]}]}];
+const OPEN_QS = [{"ax":5,"q":"إيه الدعوة اللي بتدعي بيها لبيتنا؟"},{"ax":5,"q":"إيه العادة الدينية اللي نفسك نبدأها من أول يوم في بيتنا؟"},{"ax":5,"q":"إيه العبادة أو العادة الدينية اللي حاسس/ة إنها الأقرب لقلبك؟"}];
+const CODE_PREFIX = "M6";
+
+
+/* ---------- prepare ---------- */
+const CLOSED = [];
+AXES.forEach(function (ax, ai) {
+  ax.index = ai;
+  ax.qs.forEach(function (q, qi) {
+    q.id = ai + "-" + qi;
+    q.axis = ai;
+    q.opts = q.t === "a" ? AGREE : q.o;
+    CLOSED.push(q);
+  });
+});
+const my = {};
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function ar(n) {
+  return String(n).replace(/[0-9]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩"[+d]; });
+}
+
+/* ---------- collapse extra axes (JS enhancement only) ---------- */
+function collapseExtras() {
+  for (let i = 1; i < AXES.length; i++) {
+    const el = document.getElementById("ax" + i);
+    if (el) el.classList.add("collapsed");
+  }
+}
+
+function toggleAxis(i) {
+  document.getElementById("ax" + i).classList.toggle("collapsed");
+}
+
+function pick(input) {
+  const qid = input.name, oi = +input.value;
+  if (my[qid] === oi) { input.checked = false; delete my[qid]; }
+  else { my[qid] = oi; }
+  update();
+}
+
+function update() {
+  let done = 0;
+  CLOSED.forEach(function (q) {
+    const answered = my[q.id] != null;
+    if (answered) done++;
+    const t = document.querySelector('.tile[data-t="' + q.id + '"]');
+    if (t) { t.className = "tile" + (answered ? " done" : ""); }
+  });
+  AXES.forEach(function (ax, ai) {
+    let d = 0;
+    ax.qs.forEach(function (q) { if (my[q.id] != null) d++; });
+    document.getElementById("cnt" + ai).textContent = ar(d) + " / " + ar(ax.qs.length);
+  });
+  const pct = CLOSED.length ? Math.round((done / CLOSED.length) * 100) : 0;
+  document.getElementById("fill").style.width = pct + "%";
+  document.getElementById("progTxt").textContent = "جاوبت على " + ar(done) + " من " + ar(CLOSED.length) + " سؤال";
+  document.getElementById("myCode").value = makeCode();
+}
+
+function makeCode() {
+  let s = CODE_PREFIX;
+  CLOSED.forEach(function (q) { s += my[q.id] == null ? "-" : String(my[q.id]); });
+  return s;
+}
+
+function copyCode() {
+  const code = makeCode();
+  const ta = document.getElementById("myCode");
+  ta.value = code;
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+  if (navigator.clipboard) { navigator.clipboard.writeText(code).then(function () {}, function () {}); ok = true; }
+  window.getSelection().removeAllRanges();
+  alert(ok ? "الكود اتنسخ. ابعته للطرف التاني." : "انسخ الكود من الخانة اللي في آخر الصفحة.");
+}
+
+/* ---------- tabs ---------- */
+function showTab(k) {
+  const q = k === "q";
+  document.getElementById("panel-q").classList.toggle("active", q);
+  document.getElementById("panel-c").classList.toggle("active", !q);
+  document.getElementById("tab-q").setAttribute("aria-selected", q ? "true" : "false");
+  document.getElementById("tab-c").setAttribute("aria-selected", q ? "false" : "true");
+  window.scrollTo(0, 0);
+}
+
+/* ---------- compare ---------- */
+function clearCompare() {
+  document.getElementById("theirCode").value = "";
+  document.getElementById("cmpOut").innerHTML = "";
+  document.getElementById("cmpMsg").textContent = "";
+}
+
+function doCompare() {
+  const raw = document.getElementById("theirCode").value.trim().replace(/\s+/g, "");
+  const msg = document.getElementById("cmpMsg");
+  const out = document.getElementById("cmpOut");
+  out.innerHTML = "";
+  if (!raw) { msg.textContent = "حط الكود الأول."; return; }
+  if (raw.slice(0, CODE_PREFIX.length) !== CODE_PREFIX || raw.length !== CODE_PREFIX.length + CLOSED.length) {
+    msg.textContent = "الكود مش مظبوط. اتأكد إن الاتنين بتستخدموا نفس الملف، وإنك نسخت الكود كامل.";
+    return;
+  }
+  msg.textContent = "";
+  const body = raw.slice(CODE_PREFIX.length);
+  const A = (document.getElementById("nameA").value || "أنا").trim();
+  const B = (document.getElementById("nameB").value || "الطرف التاني").trim();
+
+  let same = 0, diff = 0, talk = 0, both = 0;
+  const perAxis = AXES.map(function () { return []; });
+  const diffs = AXES.map(function () { return []; });
+
+  CLOSED.forEach(function (q, i) {
+    const ch = body[i];
+    const theirs = ch === "-" ? null : +ch;
+    const mine = my[q.id] == null ? null : my[q.id];
+    let state = "none";
+    if (mine != null && theirs != null) {
+      both++;
+      const hesitant = q.t === "a" && (mine >= 2 || theirs >= 2);
+      if (mine === theirs) { same++; state = hesitant ? "talk" : "same"; if (hesitant) talk++; }
+      else { diff++; state = "diff"; diffs[q.axis].push({ q: q, mine: mine, theirs: theirs }); }
+    } else if (mine != null || theirs != null) {
+      state = "half";
+      diffs[q.axis].push({ q: q, mine: mine, theirs: theirs, partial: true });
+    }
+    perAxis[q.axis].push(state);
+  });
+
+  const pct = both ? Math.round((same / both) * 100) : 0;
+  let html = '<div class="box"><h2>النتيجة</h2>' +
+    '<div class="score">' +
+    '<div class="stat s-same"><b>' + ar(pct) + '%</b><small>نسبة الاتفاق</small></div>' +
+    '<div class="stat s-diff"><b>' + ar(diff) + '</b><small>سؤال مختلفين فيه</small></div>' +
+    '<div class="stat s-talk"><b>' + ar(talk) + '</b><small>الاتنين متردد فيه</small></div>' +
+    "</div>" +
+    '<div class="legend">' +
+    '<span><i style="background:var(--teal)"></i>متفقين</span>' +
+    '<span><i style="background:var(--brick)"></i>مختلفين</span>' +
+    '<span><i style="background:#e8c072"></i>الاتنين متردد</span>' +
+    '<span><i style="background:#e6ecec;border:1px solid #d6dfe0"></i>ناقص إجابة</span>' +
+    "</div></div>";
+
+  AXES.forEach(function (ax, ai) {
+    let tiles = "";
+    perAxis[ai].forEach(function (s) {
+      const cls = s === "same" ? "same" : s === "diff" ? "diff" : s === "talk" ? "talk" : "";
+      tiles += '<span class="tile ' + cls + '"></span>';
+    });
+    const bothN = perAxis[ai].filter(function (s) { return s === "same" || s === "talk" || s === "diff"; }).length;
+    const sameN = perAxis[ai].filter(function (s) { return s === "same" || s === "talk"; }).length;
+    let list = "";
+    if (bothN === 0) {
+      list = '<p class="empty">المحور ده لسه فاضي — واحد منكم على الأقل مجاوبش فيه، فمفيش مقارنة.</p>';
+    } else if (!diffs[ai].length) {
+      list = '<p class="empty">متفقين في كل اللي جاوبتوه هنا (' + ar(bothN) + ' سؤال). 👌</p>';
+    } else {
+      list = '<p class="sub" style="margin:0 0 6px">قارنّا ' + ar(bothN) + ' سؤال، متفقين في ' + ar(sameN) + '. المختلف عليه:</p>';
+      diffs[ai].forEach(function (d) {
+        const mineTxt = d.mine == null ? "لسه مجاوبتش" : d.q.opts[d.mine];
+        const theirTxt = d.theirs == null ? "لسه مجاوبش" : d.q.opts[d.theirs];
+        list += '<div class="diff"><p>' + esc(d.q.q) + '</p><div class="ans">' +
+          '<span class="pill a"><b>' + esc(A) + ":</b> " + esc(mineTxt) + "</span>" +
+          '<span class="pill b"><b>' + esc(B) + ":</b> " + esc(theirTxt) + "</span>" +
+          "</div></div>";
+      });
+    }
+    html += '<div class="box"><h2>' + esc(ax.key) + "</h2>" +
+      '<div class="strip" style="margin:0 0 12px">' + tiles + "</div>" + list + "</div>";
+  });
+
+  html += '<div class="box"><h2>الخلاصة</h2><p class="sub" style="margin:0">اللي بالأحمر مش مشكلة في حد ذاته — الخطر بيكون في اللي محدش اتكلم فيه. خدوا محور واحد كل قعدة، وابدأوا باللي فيه أكتر اختلاف.</p></div>';
+  out.innerHTML = html;
+  try { out.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (e) { /* ok */ }
+}
+
+collapseExtras();
+try { update(); } catch (e) { /* الأسئلة تفضل ظاهرة على أي حال */ }
+</script>
+</body>
+</html>
