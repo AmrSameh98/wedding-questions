@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>محور ١٢ · الطباع الشخصية</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Reem+Kufi:wght@500;600;700&family=IBM+Plex+Sans+Arabic:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink:#132630;
+    --ink-soft:#5b7783;
+    --bg:#e5ebec;
+    --card:#ffffff;
+    --line:#d2dcde;
+    --teal:#0e6b68;
+    --brass:#9d6b17;
+    --brass-tint:#f6efe1;
+    --brick:#b0432f;
+    --radius:14px;
+    --sans:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif;
+    --display:"Reem Kufi","IBM Plex Sans Arabic",Tahoma,sans-serif;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0}
+  body{
+    background:var(--bg);
+    color:var(--ink);
+    font-family:var(--sans);
+    font-weight:400;
+    line-height:1.7;
+    -webkit-text-size-adjust:100%;
+    padding-bottom:92px;
+  }
+  .wrap{max-width:720px;margin:0 auto;padding:0 16px}
+
+  /* ---------- header ---------- */
+  header.hero{
+    background:var(--ink);
+    color:#f2f6f6;
+    padding:34px 0 26px;
+    border-bottom:6px solid var(--brass);
+  }
+  .eyebrow{
+    font-size:12px;letter-spacing:.14em;color:#8fb0b4;
+    text-transform:none;margin:0 0 10px;
+  }
+  h1{
+    font-family:var(--display);
+    font-weight:700;
+    font-size:clamp(28px,7vw,42px);
+    line-height:1.25;
+    margin:0 0 10px;
+  }
+  h1 em{font-style:normal;color:#e8c072}
+  .lede{margin:0;color:#c3d5d7;font-size:15.5px;max-width:52ch}
+
+  /* ---------- how to ---------- */
+  .howto{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    padding:18px 18px 8px;margin-top:-18px;position:relative;z-index:2;
+  }
+  .howto h2{font-family:var(--display);font-size:17px;margin:0 0 10px}
+  .steps{list-style:none;margin:0;padding:0;counter-reset:s}
+  .steps li{
+    counter-increment:s;position:relative;padding:0 34px 12px 0;font-size:14.5px;color:var(--ink);
+  }
+  .steps li::before{
+    content:counter(s);position:absolute;right:0;top:2px;
+    width:24px;height:24px;border-radius:7px;background:var(--brass-tint);color:var(--brass);
+    font-size:13px;font-weight:600;display:grid;place-items:center;font-family:var(--sans);
+  }
+
+  /* ---------- names ---------- */
+  .names{display:flex;gap:10px;margin-top:14px;flex-wrap:wrap}
+  .names label{flex:1;min-width:140px;font-size:12.5px;color:var(--ink-soft)}
+  .names input{
+    display:block;width:100%;margin-top:4px;padding:9px 11px;font-family:var(--sans);font-size:15px;
+    border:1px solid var(--line);border-radius:9px;background:#fbfdfd;color:var(--ink);
+  }
+  .names input:focus{outline:2px solid var(--teal);outline-offset:1px}
+
+  /* ---------- tabs ---------- */
+  nav.tabs{
+    display:flex;gap:6px;margin:18px 0 4px;background:#dbe3e4;padding:5px;border-radius:12px;
+  }
+  nav.tabs button{
+    flex:1;border:0;background:transparent;font-family:var(--sans);font-size:14.5px;font-weight:500;
+    color:var(--ink-soft);padding:9px 6px;border-radius:9px;cursor:pointer;transition:background .15s,color .15s;
+  }
+  nav.tabs button[aria-selected="true"]{background:var(--card);color:var(--ink);box-shadow:0 1px 2px rgba(19,38,48,.08)}
+
+  /* ---------- axis card ---------- */
+  .axis{
+    background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+    margin:14px 0;overflow:hidden;
+  }
+  .axis > .head{
+    width:100%;text-align:right;padding:16px 16px 14px;cursor:pointer;
+    font-family:var(--sans);display:block;-webkit-tap-highlight-color:transparent;
+  }
+  .axis > .head:focus-visible{outline:2px solid var(--teal);outline-offset:-3px}
+  .axis .kt{display:flex;align-items:baseline;gap:8px;justify-content:space-between}
+  .axis h3{font-family:var(--display);font-size:19px;margin:0;font-weight:600;color:var(--ink)}
+  .axis .count{font-size:12.5px;color:var(--ink-soft);white-space:nowrap}
+  .axis .hint{margin:4px 0 0;font-size:13px;color:var(--ink-soft)}
+
+  /* signature: mosaic strip */
+  .strip{display:flex;gap:3px;margin-top:11px;flex-wrap:wrap}
+  .tile{width:13px;height:13px;border-radius:3px;background:#e6ecec;border:1px solid #d6dfe0;transition:background .2s,border-color .2s}
+  .tile.done{background:var(--brass);border-color:var(--brass)}
+  .tile.same{background:var(--teal);border-color:var(--teal)}
+  .tile.diff{background:var(--brick);border-color:var(--brick)}
+  .tile.talk{background:#e8c072;border-color:#d3a949}
+
+  .body{display:block;padding:2px 16px 16px;border-top:1px solid var(--line)}
+  .axis.collapsed .body{display:none}
+
+  .q{padding:16px 0;border-bottom:1px dashed var(--line)}
+  .q:last-child{border-bottom:0;padding-bottom:4px}
+  .q .num{font-size:11.5px;color:var(--ink-soft);letter-spacing:.06em}
+  .q p{margin:2px 0 11px;font-size:16px;font-weight:500;line-height:1.6}
+  .mhint{font-size:12px;color:var(--ink-soft);margin:-4px 0 8px}
+  .opts{display:flex;flex-wrap:wrap;gap:7px}
+  .opt{position:relative;display:inline-flex;cursor:pointer}
+  .opt input{position:absolute;inset:0;width:100%;height:100%;margin:0;opacity:0;cursor:pointer}
+  .opt span{
+    border:1px solid var(--line);background:#fbfdfd;color:var(--ink);font-size:14px;
+    padding:8px 13px;border-radius:999px;transition:background .13s,border-color .13s,color .13s;
+    display:block;
+  }
+  .opt:hover span{border-color:#b8c7c9}
+  .opt input:checked + span{background:var(--brass-tint);border-color:var(--brass);color:#7d5410;font-weight:500}
+  .opt input:focus-visible + span{outline:2px solid var(--teal);outline-offset:2px}
+
+  /* ---------- open questions ---------- */
+  .open-q{margin:14px 0 0}
+  .open-q p{font-size:16px;font-weight:500;margin:0 0 8px}
+  .open-q textarea{
+    width:100%;min-height:74px;padding:10px 12px;font-family:var(--sans);font-size:15px;line-height:1.6;
+    border:1px solid var(--line);border-radius:10px;background:#fbfdfd;color:var(--ink);resize:vertical;
+  }
+  .open-q textarea:focus{outline:2px solid var(--teal);outline-offset:1px}
+  .note{
+    background:#f4f8f8;border:1px solid var(--line);border-right:3px solid var(--teal);
+    border-radius:10px;padding:12px 14px;font-size:14px;color:var(--ink-soft);margin:14px 0;
+  }
+
+  /* ---------- bottom bar ---------- */
+  .bar{
+    position:fixed;inset-inline:0;bottom:0;background:rgba(19,38,48,.97);color:#eef4f4;
+    padding:11px 0;z-index:9;backdrop-filter:blur(6px);
+  }
+  .bar .wrap{display:flex;align-items:center;gap:12px}
+  .prog{flex:1}
+  .prog .track{height:6px;background:#31505c;border-radius:99px;overflow:hidden}
+  .prog .fill{height:100%;width:0;background:var(--brass);transition:width .25s}
+  .prog span{font-size:12.5px;color:#a9c3c6;display:block;margin-top:4px}
+  .btn{
+    border:0;border-radius:10px;padding:11px 15px;font-family:var(--sans);font-size:14.5px;font-weight:500;
+    background:var(--brass);color:#fff;cursor:pointer;white-space:nowrap;
+  }
+  .btn.ghost{background:transparent;border:1px solid #4d6b76;color:#dceaea}
+  .btn:focus-visible{outline:2px solid #e8c072;outline-offset:2px}
+
+  /* ---------- compare ---------- */
+  .panel{display:none}
+  .panel.active{display:block}
+  .box{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);padding:16px;margin:14px 0}
+  .box h2{font-family:var(--display);font-size:19px;margin:0 0 8px}
+  .box p.sub{margin:0 0 12px;font-size:14px;color:var(--ink-soft)}
+  .box textarea{
+    width:100%;min-height:88px;font-family:"IBM Plex Sans Arabic",monospace;font-size:13px;direction:ltr;text-align:left;
+    padding:10px;border:1px solid var(--line);border-radius:10px;background:#fbfdfd;color:var(--ink);
+  }
+  .row{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+  .row .btn{flex:1;min-width:130px}
+  .btn.dark{background:var(--ink)}
+  .score{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 6px}
+  .stat{flex:1;min-width:96px;background:#f4f8f8;border:1px solid var(--line);border-radius:11px;padding:11px 12px}
+  .stat b{display:block;font-family:var(--display);font-size:26px;line-height:1.2}
+  .stat small{font-size:12px;color:var(--ink-soft)}
+  .stat.s-same b{color:var(--teal)}
+  .stat.s-diff b{color:var(--brick)}
+  .stat.s-talk b{color:var(--brass)}
+  .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--ink-soft);margin:8px 0 0}
+  .legend i{display:inline-block;width:11px;height:11px;border-radius:3px;margin-inline-end:5px;vertical-align:-1px}
+  .diff{padding:13px 0;border-bottom:1px dashed var(--line)}
+  .diff:last-child{border-bottom:0}
+  .diff p{margin:0 0 8px;font-size:15.5px;font-weight:500}
+  .ans{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{font-size:13px;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:#fbfdfd}
+  .pill b{font-weight:600;color:var(--ink-soft);font-size:12px}
+  .pill.a{border-color:#a8c9c7;background:#eef6f6}
+  .pill.b{border-color:#e0c9a0;background:#fbf4e7}
+  .empty{font-size:14.5px;color:var(--ink-soft)}
+  footer{padding:26px 0 10px;font-size:12.5px;color:var(--ink-soft);text-align:center}
+
+  @media (prefers-reduced-motion:reduce){*{transition:none!important}}
+
+  @media print{
+    body{background:#fff;padding:0}
+    .bar,nav.tabs,.howto,.names,header.hero{position:static}
+    .bar,nav.tabs{display:none}
+    .axis .body{display:block!important}
+    .axis{break-inside:avoid;border-color:#bbb}
+    .opt span{padding:4px 9px}
+    .panel{display:block!important}
+  }
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="wrap">
+    <p class="eyebrow">المحور ١٢ من ١٢</p>
+    <h1>الطباع الشخصية</h1>
+    <p class="lede">مش صح وغلط — الفكرة تعرفوا شكل بعض على طبيعته. ٣٧ سؤال اختيار و٦ للنقاش — قعدة واحدة تكفيهم.</p>
+  </div>
+</header>
+
+<div class="wrap">
+  <section class="howto">
+    <h2>إزاي نستخدمه</h2>
+    <ol class="steps">
+      <li>كل واحد يفتح الصفحة على موبايله ويجاوب لوحده — من غير ما يشوف إجابات التاني. مش لازم تخلّصوا الملف كله؛ اتفقوا على محور واحد واجاوبوه.</li>
+      <li>بعد ما تخلّص، اضغط «انسخ كود إجاباتي» وابعته للطرف التاني على واتساب.</li>
+      <li>من تبويب «المقارنة»، الزق الكود اللي وصلك واضغط «قارن».</li>
+      <li>اقعدوا اتكلموا في المختلف عليه بس — ده اللي محتاج وقتكم.</li>
+    </ol>
+    <div class="names">
+      <label>اسمي
+        <input id="nameA" type="text" placeholder="مثلًا: عمرو">
+      </label>
+      <label>اسم الطرف التاني
+        <input id="nameB" type="text" placeholder="مثلًا: ...">
+      </label>
+    </div>
+  </section>
+
+  <noscript><p class="note" style="border-right-color:var(--brick)">تقدر تقرا الأسئلة وتختار إجاباتك عادي، بس المقارنة محتاجة تفتح الملف من متصفح (كروم أو سفاري).</p></noscript>
+
+  <nav class="tabs" role="tablist">
+    <button role="tab" id="tab-q" aria-selected="true" onclick="showTab('q')">الأسئلة</button>
+    <button role="tab" id="tab-c" aria-selected="false" onclick="showTab('c')">المقارنة</button>
+  </nav>
+
+  <div id="panel-q" class="panel active">
+    <div id="axes"><section class="axis" id="ax0"><div class="head" role="button" tabindex="0" onclick="toggleAxis(0)" onkeydown="if(event.key==='Enter'||event.key===' '){event.preventDefault();toggleAxis(0);}"><span class="kt"><h3>الطباع الشخصية</h3><span class="count" id="cnt0">٠ / ٣٧</span></span><p class="hint">مش صح وغلط — الفكرة تعرفوا شكل بعض على طبيعته</p><div class="strip"><span class="tile" data-t="0-0"></span><span class="tile" data-t="0-1"></span><span class="tile" data-t="0-2"></span><span class="tile" data-t="0-3"></span><span class="tile" data-t="0-4"></span><span class="tile" data-t="0-5"></span><span class="tile" data-t="0-6"></span><span class="tile" data-t="0-7"></span><span class="tile" data-t="0-8"></span><span class="tile" data-t="0-9"></span><span class="tile" data-t="0-10"></span><span class="tile" data-t="0-11"></span><span class="tile" data-t="0-12"></span><span class="tile" data-t="0-13"></span><span class="tile" data-t="0-14"></span><span class="tile" data-t="0-15"></span><span class="tile" data-t="0-16"></span><span class="tile" data-t="0-17"></span><span class="tile" data-t="0-18"></span><span class="tile" data-t="0-19"></span><span class="tile" data-t="0-20"></span><span class="tile" data-t="0-21"></span><span class="tile" data-t="0-22"></span><span class="tile" data-t="0-23"></span><span class="tile" data-t="0-24"></span><span class="tile" data-t="0-25"></span><span class="tile" data-t="0-26"></span><span class="tile" data-t="0-27"></span><span class="tile" data-t="0-28"></span><span class="tile" data-t="0-29"></span><span class="tile" data-t="0-30"></span><span class="tile" data-t="0-31"></span><span class="tile" data-t="0-32"></span><span class="tile" data-t="0-33"></span><span class="tile" data-t="0-34"></span><span class="tile" data-t="0-35"></span><span class="tile" data-t="0-36"></span></div></div><div class="body"><div class="q"><div class="num">١</div><p>مزاجي في اليوم العادي</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-0" value="0" onclick="pick(this)"><span>رايق وبهزّر أغلب الوقت</span></label><label class="opt"><input type="checkbox" name="0-0" value="1" onclick="pick(this)"><span>هادي ومستقر</span></label><label class="opt"><input type="checkbox" name="0-0" value="2" onclick="pick(this)"><span>بيتغيّر بسرعة حسب اللي بيحصل</span></label><label class="opt"><input type="checkbox" name="0-0" value="3" onclick="pick(this)"><span>بميل للجدية والتفكير أكتر</span></label></div></div><div class="q"><div class="num">٢</div><p>لما أرجع البيت بعد يوم وحش</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-1" value="0" onclick="pick(this)"><span>بحاول ما أنقلش الجو الوحش لحد</span></label><label class="opt"><input type="checkbox" name="0-1" value="1" onclick="pick(this)"><span>بيبان عليّ فورًا</span></label><label class="opt"><input type="checkbox" name="0-1" value="2" onclick="pick(this)"><span>بفضل ساكت لحد ما أرجع لطبيعتي</span></label><label class="opt"><input type="checkbox" name="0-1" value="3" onclick="pick(this)"><span>بحكي عشان أفضفض وأرتاح</span></label></div></div><div class="q"><div class="num">٣</div><p>الهزار والضحك في البيت</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-2" value="0" onclick="pick(this)"><span>أساسي عندي ومش بستغنى عنه</span></label><label class="opt"><input type="checkbox" name="0-2" value="1" onclick="pick(this)"><span>حلو بس مش طول الوقت</span></label><label class="opt"><input type="checkbox" name="0-2" value="2" onclick="pick(this)"><span>بيضايقني في وقت الجد</span></label><label class="opt"><input type="checkbox" name="0-2" value="3" onclick="pick(this)"><span>بحب الهزار الهادي</span></label></div></div><div class="q"><div class="num">٤</div><p>أقرب الناس ليّ بيوصفوني بإني</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-3" value="0" onclick="pick(this)"><span>خفيف الدم ومرح</span></label><label class="opt"><input type="checkbox" name="0-3" value="1" onclick="pick(this)"><span>هادي وعاقل</span></label><label class="opt"><input type="checkbox" name="0-3" value="2" onclick="pick(this)"><span>حساس ورقيق</span></label><label class="opt"><input type="checkbox" name="0-3" value="3" onclick="pick(this)"><span>صريح وواضح</span></label><label class="opt"><input type="checkbox" name="0-3" value="4" onclick="pick(this)"><span>عصبي شوية</span></label></div></div><div class="q"><div class="num">٥</div><p>لما أتضايق من حاجة صغيرة</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-4" value="0" onclick="pick(this)"><span>بعدّيها بسرعة</span></label><label class="opt"><input type="checkbox" name="0-4" value="1" onclick="pick(this)"><span>بتفضل معايا شوية</span></label><label class="opt"><input type="checkbox" name="0-4" value="2" onclick="pick(this)"><span>بتفضل معايا اليوم كله</span></label><label class="opt"><input type="checkbox" name="0-4" value="3" onclick="pick(this)"><span>بحوّلها لهزار</span></label></div></div><div class="q"><div class="num">٦</div><p>نظرتي للأمور عمومًا</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-5" value="0" onclick="pick(this)"><span>متفائل حتى في الصعب</span></label><label class="opt"><input type="checkbox" name="0-5" value="1" onclick="pick(this)"><span>واقعي بحسبها</span></label><label class="opt"><input type="checkbox" name="0-5" value="2" onclick="pick(this)"><span>بتوقّع الأسوأ عشان ما أتصدمش</span></label><label class="opt"><input type="checkbox" name="0-5" value="3" onclick="pick(this)"><span>بتتغيّر حسب الظروف</span></label></div></div><div class="q"><div class="num">٧</div><p>أنا بعصّب</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-6" value="0" onclick="pick(this)"><span>نادر جدًا</span></label><label class="opt"><input type="checkbox" name="0-6" value="1" onclick="pick(this)"><span>لما يتكرر نفس الغلط</span></label><label class="opt"><input type="checkbox" name="0-6" value="2" onclick="pick(this)"><span>بسرعة بس بهدى بسرعة</span></label><label class="opt"><input type="checkbox" name="0-6" value="3" onclick="pick(this)"><span>بكتم لحد ما أنفجر مرة واحدة</span></label></div></div><div class="q"><div class="num">٨</div><p>لما بعصّب بيبان في</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-7" value="0" onclick="pick(this)"><span>صوتي</span></label><label class="opt"><input type="checkbox" name="0-7" value="1" onclick="pick(this)"><span>سكوتي التام</span></label><label class="opt"><input type="checkbox" name="0-7" value="2" onclick="pick(this)"><span>كلامي بيبقى حاد</span></label><label class="opt"><input type="checkbox" name="0-7" value="3" onclick="pick(this)"><span>بخرج من المكان</span></label></div></div><div class="q"><div class="num">٩</div><p>الوقت اللي بحتاجه أهدى بعد العصبية</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-8" value="0" onclick="pick(this)"><span>دقايق</span></label><label class="opt"><input type="checkbox" name="0-8" value="1" onclick="pick(this)"><span>ساعات</span></label><label class="opt"><input type="checkbox" name="0-8" value="2" onclick="pick(this)"><span>يوم أو أكتر</span></label><label class="opt"><input type="checkbox" name="0-8" value="3" onclick="pick(this)"><span>بيعتمد على السبب</span></label></div></div><div class="q"><div class="num">١٠</div><p>حد قالي قبل كده إني بعصّب أكتر من اللازم</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-9" value="0" onclick="pick(this)"><span>أيوه وأنا متفق معاه</span></label><label class="opt"><input type="checkbox" name="0-9" value="1" onclick="pick(this)"><span>أيوه بس مش شايف كده</span></label><label class="opt"><input type="checkbox" name="0-9" value="2" onclick="pick(this)"><span>لأ محدش قالي</span></label><label class="opt"><input type="checkbox" name="0-9" value="3" onclick="pick(this)"><span>مش فاكر</span></label></div></div><div class="q"><div class="num">١١</div><p>الحاجات الصغيرة اللي بتوتر (زحمة، طابور، تأخير)</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-10" value="0" onclick="pick(this)"><span>ما بتأثرش فيّ</span></label><label class="opt"><input type="checkbox" name="0-10" value="1" onclick="pick(this)"><span>بتضايقني بس بعدّيها</span></label><label class="opt"><input type="checkbox" name="0-10" value="2" onclick="pick(this)"><span>بتخليني عصبي فعلاً</span></label><label class="opt"><input type="checkbox" name="0-10" value="3" onclick="pick(this)"><span>بتجنّب المواقف دي أصلاً</span></label></div></div><div class="q"><div class="num">١٢</div><p>لما أزعل من الطرف التاني</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-11" value="0" onclick="pick(this)"><span>بقوله على طول</span></label><label class="opt"><input type="checkbox" name="0-11" value="1" onclick="pick(this)"><span>بستنى يلاحظ ويسأل</span></label><label class="opt"><input type="checkbox" name="0-11" value="2" onclick="pick(this)"><span>بقمّص وأبيّن إني زعلان من غير كلام</span></label><label class="opt"><input type="checkbox" name="0-11" value="3" onclick="pick(this)"><span>بحاول أعدّيها لوحدي</span></label></div></div><div class="q"><div class="num">١٣</div><p>لما أكون زعلان وحد يسألني «مالك؟»</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-12" value="0" onclick="pick(this)"><span>بقول اللي جوايا</span></label><label class="opt"><input type="checkbox" name="0-12" value="1" onclick="pick(this)"><span>بقول «مفيش» وأنا زعلان</span></label><label class="opt"><input type="checkbox" name="0-12" value="2" onclick="pick(this)"><span>بقول «مش دلوقتي»</span></label><label class="opt"><input type="checkbox" name="0-12" value="3" onclick="pick(this)"><span>بيعتمد على مين اللي سأل</span></label></div></div><div class="q"><div class="num">١٤</div><p>مدة الزعل الطبيعية عندي</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-13" value="0" onclick="pick(this)"><span>دقايق</span></label><label class="opt"><input type="checkbox" name="0-13" value="1" onclick="pick(this)"><span>ساعات</span></label><label class="opt"><input type="checkbox" name="0-13" value="2" onclick="pick(this)"><span>يوم</span></label><label class="opt"><input type="checkbox" name="0-13" value="3" onclick="pick(this)"><span>أكتر من يوم</span></label></div></div><div class="q"><div class="num">١٥</div><p>اللي بيرجّعني من الزعل بسرعة</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-14" value="0" onclick="pick(this)"><span>كلمة حلوة أو اعتذار</span></label><label class="opt"><input type="checkbox" name="0-14" value="1" onclick="pick(this)"><span>هزار وتغيير الجو</span></label><label class="opt"><input type="checkbox" name="0-14" value="2" onclick="pick(this)"><span>نقاش هادي في اللي حصل</span></label><label class="opt"><input type="checkbox" name="0-14" value="3" onclick="pick(this)"><span>حاجة عملية تبيّن إنه مهتم</span></label></div></div><div class="q"><div class="num">١٦</div><p>لما الطرف التاني يزعل ويقمّص</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-15" value="0" onclick="pick(this)"><span>بحاول أعرف السبب وأصالح</span></label><label class="opt"><input type="checkbox" name="0-15" value="1" onclick="pick(this)"><span>بستناه يهدى لوحده</span></label><label class="opt"><input type="checkbox" name="0-15" value="2" onclick="pick(this)"><span>بزعل أنا كمان</span></label><label class="opt"><input type="checkbox" name="0-15" value="3" onclick="pick(this)"><span>بحس إنه بيضغط عليّ</span></label></div></div><div class="q"><div class="num">١٧</div><p>لما أكون متأكد من رأيي والطرف التاني عكسه</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-16" value="0" onclick="pick(this)"><span>أسمعه وأراجع نفسي</span></label><label class="opt"><input type="checkbox" name="0-16" value="1" onclick="pick(this)"><span>أفضل على رأيي بس من غير خصام</span></label><label class="opt"><input type="checkbox" name="0-16" value="2" onclick="pick(this)"><span>أفضل على رأيي لحد ما يقتنع</span></label><label class="opt"><input type="checkbox" name="0-16" value="3" onclick="pick(this)"><span>أسكت بس ما أغيّرش رأيي</span></label></div></div><div class="q"><div class="num">١٨</div><p>أنا شخص بيغيّر رأيه بسهولة لما يشوف دليل مقنع</p><div class="opts"><label class="opt"><input type="radio" name="0-17" value="0" onclick="pick(this)"><span>أتفق</span></label><label class="opt"><input type="radio" name="0-17" value="1" onclick="pick(this)"><span>لا أتفق</span></label><label class="opt"><input type="radio" name="0-17" value="2" onclick="pick(this)"><span>متردد</span></label><label class="opt"><input type="radio" name="0-17" value="3" onclick="pick(this)"><span>مش عارف/عارفة</span></label></div></div><div class="q"><div class="num">١٩</div><p>لو اتفقنا على حاجة وأنا مش مقتنع تمامًا</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-18" value="0" onclick="pick(this)"><span>أنفّذها بارتياح</span></label><label class="opt"><input type="checkbox" name="0-18" value="1" onclick="pick(this)"><span>أنفّذها وأنا مضايق</span></label><label class="opt"><input type="checkbox" name="0-18" value="2" onclick="pick(this)"><span>أفضل أفتح الموضوع تاني</span></label><label class="opt"><input type="checkbox" name="0-18" value="3" onclick="pick(this)"><span>أماطل في التنفيذ</span></label></div></div><div class="q"><div class="num">٢٠</div><p>فيه ناس بتتقل شوية في التعامل أو الرد عشان الطرف التاني يحس بقيمتها — رأيي في ده</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-19" value="0" onclick="pick(this)"><span>أسلوب مش صح ومرهق للعلاقة</span></label><label class="opt"><input type="checkbox" name="0-19" value="1" onclick="pick(this)"><span>طبيعي وبيحصل من غير قصد</span></label><label class="opt"><input type="checkbox" name="0-19" value="2" onclick="pick(this)"><span>بيحصل مني فعلاً أحيانًا</span></label><label class="opt"><input type="checkbox" name="0-19" value="3" onclick="pick(this)"><span>بيحصل بشكل خفيف كنوع من الدلع</span></label></div></div><div class="q"><div class="num">٢١</div><p>لو الطرف التاني اتقل عليّ في الرد أو التعامل</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-20" value="0" onclick="pick(this)"><span>أساله بصراحة عن السبب</span></label><label class="opt"><input type="checkbox" name="0-20" value="1" onclick="pick(this)"><span>أتقل عليه بنفس الطريقة</span></label><label class="opt"><input type="checkbox" name="0-20" value="2" onclick="pick(this)"><span>أستحمل وأستنى يرجع</span></label><label class="opt"><input type="checkbox" name="0-20" value="3" onclick="pick(this)"><span>بزعل وبيأثر عليّ جدًا</span></label></div></div><div class="q"><div class="num">٢٢</div><p>الاهتمام اللي بحتاجه فعلاً</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-21" value="0" onclick="pick(this)"><span>كلام وتواصل مستمر</span></label><label class="opt"><input type="checkbox" name="0-21" value="1" onclick="pick(this)"><span>أفعال أكتر من كلام</span></label><label class="opt"><input type="checkbox" name="0-21" value="2" onclick="pick(this)"><span>وجوده جنبي من غير كلام كتير</span></label><label class="opt"><input type="checkbox" name="0-21" value="3" onclick="pick(this)"><span>بحتاج مساحة أكتر من اهتمام</span></label></div></div><div class="q"><div class="num">٢٣</div><p>النقد المباشر ليّ</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-22" value="0" onclick="pick(this)"><span>بستحمله عادي</span></label><label class="opt"><input type="checkbox" name="0-22" value="1" onclick="pick(this)"><span>بيزعلني في اللحظة وبعدها بفكر فيه</span></label><label class="opt"><input type="checkbox" name="0-22" value="2" onclick="pick(this)"><span>بيأثر عليّ فترة طويلة</span></label><label class="opt"><input type="checkbox" name="0-22" value="3" onclick="pick(this)"><span>بعتبره اهتمام مش هجوم</span></label></div></div><div class="q"><div class="num">٢٤</div><p>المزاح اللي فيه تريقة عليّ</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-23" value="0" onclick="pick(this)"><span>بضحك عادي</span></label><label class="opt"><input type="checkbox" name="0-23" value="1" onclick="pick(this)"><span>بتضايق بس ما بينش</span></label><label class="opt"><input type="checkbox" name="0-23" value="2" onclick="pick(this)"><span>بتضايق وبقول</span></label><label class="opt"><input type="checkbox" name="0-23" value="3" onclick="pick(this)"><span>حسب اللي بيقوله ومين بيقوله</span></label></div></div><div class="q"><div class="num">٢٥</div><p>لما حد يمدحني</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-24" value="0" onclick="pick(this)"><span>بفرح وبشكره</span></label><label class="opt"><input type="checkbox" name="0-24" value="1" onclick="pick(this)"><span>بتكسف</span></label><label class="opt"><input type="checkbox" name="0-24" value="2" onclick="pick(this)"><span>بحس إنه بيجاملني</span></label><label class="opt"><input type="checkbox" name="0-24" value="3" onclick="pick(this)"><span>بحب أسمعه أكتر</span></label></div></div><div class="q"><div class="num">٢٦</div><p>في الخروج والاجتماعات</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-25" value="0" onclick="pick(this)"><span>بحب الزحمة والناس</span></label><label class="opt"><input type="checkbox" name="0-25" value="1" onclick="pick(this)"><span>بفضّل مجموعة صغيرة</span></label><label class="opt"><input type="checkbox" name="0-25" value="2" onclick="pick(this)"><span>بحب أفضل في البيت</span></label><label class="opt"><input type="checkbox" name="0-25" value="3" onclick="pick(this)"><span>حسب مزاجي في اليوم</span></label></div></div><div class="q"><div class="num">٢٧</div><p>لو خططنا اتغيّرت فجأة في آخر لحظة</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-26" value="0" onclick="pick(this)"><span>عادي وبتأقلم بسرعة</span></label><label class="opt"><input type="checkbox" name="0-26" value="1" onclick="pick(this)"><span>بيضايقني بس بعدّيها</span></label><label class="opt"><input type="checkbox" name="0-26" value="2" onclick="pick(this)"><span>بيوترني جدًا</span></label><label class="opt"><input type="checkbox" name="0-26" value="3" onclick="pick(this)"><span>بيعتمد على السبب</span></label></div></div><div class="q"><div class="num">٢٨</div><p>النظام والترتيب</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-27" value="0" onclick="pick(this)"><span>أساسي وبيريحني</span></label><label class="opt"><input type="checkbox" name="0-27" value="1" onclick="pick(this)"><span>مهم بس مش مهووس بيه</span></label><label class="opt"><input type="checkbox" name="0-27" value="2" onclick="pick(this)"><span>فوضوي شوية</span></label><label class="opt"><input type="checkbox" name="0-27" value="3" onclick="pick(this)"><span>بيتغيّر حسب الفترة</span></label></div></div><div class="q"><div class="num">٢٩</div><p>المواعيد</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-28" value="0" onclick="pick(this)"><span>بلتزم بيها بدقة</span></label><label class="opt"><input type="checkbox" name="0-28" value="1" onclick="pick(this)"><span>تأخير بسيط عادي عندي</span></label><label class="opt"><input type="checkbox" name="0-28" value="2" onclick="pick(this)"><span>بتأخر كتير وبعتذر</span></label><label class="opt"><input type="checkbox" name="0-28" value="3" onclick="pick(this)"><span>حسب أهمية الموعد</span></label></div></div><div class="q"><div class="num">٣٠</div><p>طريقتي في اتخاذ القرارات</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-29" value="0" onclick="pick(this)"><span>بفكر كتير قبل ما أقرر</span></label><label class="opt"><input type="checkbox" name="0-29" value="1" onclick="pick(this)"><span>بقرر بسرعة وبثق في حدسي</span></label><label class="opt"><input type="checkbox" name="0-29" value="2" onclick="pick(this)"><span>بستشير الأول</span></label><label class="opt"><input type="checkbox" name="0-29" value="3" onclick="pick(this)"><span>بأجّل القرار لآخر لحظة</span></label></div></div><div class="q"><div class="num">٣١</div><p>الروتين والتكرار</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-30" value="0" onclick="pick(this)"><span>بيريحني</span></label><label class="opt"><input type="checkbox" name="0-30" value="1" onclick="pick(this)"><span>بمل بسرعة ومحتاج تغيير</span></label><label class="opt"><input type="checkbox" name="0-30" value="2" onclick="pick(this)"><span>بحب توازن بين الاتنين</span></label><label class="opt"><input type="checkbox" name="0-30" value="3" onclick="pick(this)"><span>بيعتمد على الحاجة نفسها</span></label></div></div><div class="q"><div class="num">٣٢</div><p>الفلوس والصرف</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-31" value="0" onclick="pick(this)"><span>بحسب كل جنيه</span></label><label class="opt"><input type="checkbox" name="0-31" value="1" onclick="pick(this)"><span>بصرف براحتي في حدود</span></label><label class="opt"><input type="checkbox" name="0-31" value="2" onclick="pick(this)"><span>بصرف بسهولة وبندم بعدين</span></label><label class="opt"><input type="checkbox" name="0-31" value="3" onclick="pick(this)"><span>بقتّر على نفسي وبصرف على غيري</span></label></div></div><div class="q"><div class="num">٣٣</div><p>الكرم مع الضيوف والناس</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-32" value="0" onclick="pick(this)"><span>أساسي عندي مهما كانت الظروف</span></label><label class="opt"><input type="checkbox" name="0-32" value="1" onclick="pick(this)"><span>في حدود المعقول</span></label><label class="opt"><input type="checkbox" name="0-32" value="2" onclick="pick(this)"><span>بيضايقني لو زاد عن اللزوم</span></label><label class="opt"><input type="checkbox" name="0-32" value="3" onclick="pick(this)"><span>حسب الظرف المالي</span></label></div></div><div class="q"><div class="num">٣٤</div><p>لو حصلت أزمة أو مشكلة كبيرة</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-33" value="0" onclick="pick(this)"><span>بفضل هادي وبدوّر على حل</span></label><label class="opt"><input type="checkbox" name="0-33" value="1" onclick="pick(this)"><span>بتوتر بس بتصرف</span></label><label class="opt"><input type="checkbox" name="0-33" value="2" onclick="pick(this)"><span>بيأثر عليّ نفسيًا فترة</span></label><label class="opt"><input type="checkbox" name="0-33" value="3" onclick="pick(this)"><span>بحاول ما أفكرش فيها</span></label></div></div><div class="q"><div class="num">٣٥</div><p>لو حد ضايقني في الشارع أو الشغل</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-34" value="0" onclick="pick(this)"><span>بتجاهل وأمشي</span></label><label class="opt"><input type="checkbox" name="0-34" value="1" onclick="pick(this)"><span>بواجه بهدوء</span></label><label class="opt"><input type="checkbox" name="0-34" value="2" onclick="pick(this)"><span>بواجه بحدة</span></label><label class="opt"><input type="checkbox" name="0-34" value="3" onclick="pick(this)"><span>بفضل مضايق طول اليوم</span></label></div></div><div class="q"><div class="num">٣٦</div><p>الكلام عن مشاعري</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-35" value="0" onclick="pick(this)"><span>بعبّر بسهولة</span></label><label class="opt"><input type="checkbox" name="0-35" value="1" onclick="pick(this)"><span>بعبّر بس بتكسف</span></label><label class="opt"><input type="checkbox" name="0-35" value="2" onclick="pick(this)"><span>بيصعب عليّ أوصفها بالكلام</span></label><label class="opt"><input type="checkbox" name="0-35" value="3" onclick="pick(this)"><span>بفضّل أبيّنها بأفعالي</span></label></div></div><div class="q"><div class="num">٣٧</div><p>طاقتي في اليوم</p><div class="mhint">تقدر تختار أكتر من إجابة</div><div class="opts"><label class="opt"><input type="checkbox" name="0-36" value="0" onclick="pick(this)"><span>نشيط من الصبح</span></label><label class="opt"><input type="checkbox" name="0-36" value="1" onclick="pick(this)"><span>بشتغل أحسن بالليل</span></label><label class="opt"><input type="checkbox" name="0-36" value="2" onclick="pick(this)"><span>بتقل بسرعة ومحتاج راحة</span></label><label class="opt"><input type="checkbox" name="0-36" value="3" onclick="pick(this)"><span>بتتغيّر حسب اليوم</span></label></div></div></div></section></div>
+
+    <div class="box">
+      <h2>أسئلة مفتوحة — للكلام مش للاختيار</h2>
+      <p class="sub">الأسئلة دي مش داخلة في المقارنة. اكتبوا إجاباتكم أو اقروها لبعض بصوت عالي — دي أحلى جزء.</p>
+      <div id="openqs"><div class="open-q"><p>١. اوصف نفسك في تلات كلمات — وبعدين اوصفني أنا في تلات كلمات.</p><textarea rows="2"></textarea></div><div class="open-q"><p>٢. إيه أكتر طبع فيك عارف إنه محتاج تشتغل عليه؟</p><textarea rows="2"></textarea></div><div class="open-q"><p>٣. إيه الطبع اللي بيضايقك في الناس عمومًا؟</p><textarea rows="2"></textarea></div><div class="open-q"><p>٤. إيه اللي بيرجّع مزاجك بسرعة لما تكون متضايق؟</p><textarea rows="2"></textarea></div><div class="open-q"><p>٥. إيه الطبع اللي ورثته من أهلك وعاجبك؟ وإيه اللي مش عاجبك؟</p><textarea rows="2"></textarea></div><div class="open-q"><p>٦. إيه الحاجة اللي لو عملتها ليك تحس إني فاهمك فعلاً؟</p><textarea rows="2"></textarea></div></div>
+      <p class="note" style="margin-bottom:0">اللي بتكتبه هنا بيضيع لو قفلت الصفحة، فلو حابب تحتفظ بيه انسخه لنفسك.</p>
+    </div>
+
+    <div class="box">
+      <h2>الكود بتاعي</h2>
+      <p class="sub">ده اختصار لكل إجاباتك. ابعته للطرف التاني، وخده لنفسك كنسخة احتياطية.</p>
+      <textarea id="myCode" rows="3"></textarea>
+      <div class="row">
+        <button class="btn" onclick="copyCode()">انسخ الكود</button>
+        <button class="btn dark" onclick="window.print()">اطبع الأسئلة على ورق</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="panel-c" class="panel">
+    <div class="box">
+      <h2>الزق كود الطرف التاني</h2>
+      <p class="sub">لازم تكون جاوبت انت الأول، وبعدين تحط الكود اللي وصلك هنا.</p>
+      <textarea id="theirCode" rows="3" placeholder="M12..."></textarea>
+      <div class="row">
+        <button class="btn" onclick="doCompare()">قارن</button>
+        <button class="btn ghost" style="border-color:var(--line);color:var(--ink-soft)" onclick="clearCompare()">امسح</button>
+      </div>
+      <p id="cmpMsg" class="empty" style="margin-top:10px"></p>
+    </div>
+    <div id="cmpOut"></div>
+  </div>
+
+  <footer>اتفقوا على المهم، وسيبوا الباقي للحياة. بالتوفيق ✦</footer>
+</div>
+
+<div class="bar">
+  <div class="wrap">
+    <div class="prog">
+      <div class="track"><div class="fill" id="fill"></div></div>
+      <span id="progTxt">٠ من ٠</span>
+    </div>
+    <button class="btn" onclick="copyCode()">انسخ كود إجاباتي</button>
+  </div>
+</div>
+
+<script>
+const AGREE = ["أتفق","لا أتفق","متردد","مش عارف/عارفة"];
+const AXES = [{"key":"الطباع الشخصية","hint":"مش صح وغلط — الفكرة تعرفوا شكل بعض على طبيعته","qs":[{"t":"m","q":"مزاجي في اليوم العادي","o":["رايق وبهزّر أغلب الوقت","هادي ومستقر","بيتغيّر بسرعة حسب اللي بيحصل","بميل للجدية والتفكير أكتر"]},{"t":"m","q":"لما أرجع البيت بعد يوم وحش","o":["بحاول ما أنقلش الجو الوحش لحد","بيبان عليّ فورًا","بفضل ساكت لحد ما أرجع لطبيعتي","بحكي عشان أفضفض وأرتاح"]},{"t":"m","q":"الهزار والضحك في البيت","o":["أساسي عندي ومش بستغنى عنه","حلو بس مش طول الوقت","بيضايقني في وقت الجد","بحب الهزار الهادي"]},{"t":"m","q":"أقرب الناس ليّ بيوصفوني بإني","o":["خفيف الدم ومرح","هادي وعاقل","حساس ورقيق","صريح وواضح","عصبي شوية"]},{"t":"m","q":"لما أتضايق من حاجة صغيرة","o":["بعدّيها بسرعة","بتفضل معايا شوية","بتفضل معايا اليوم كله","بحوّلها لهزار"]},{"t":"m","q":"نظرتي للأمور عمومًا","o":["متفائل حتى في الصعب","واقعي بحسبها","بتوقّع الأسوأ عشان ما أتصدمش","بتتغيّر حسب الظروف"]},{"t":"m","q":"أنا بعصّب","o":["نادر جدًا","لما يتكرر نفس الغلط","بسرعة بس بهدى بسرعة","بكتم لحد ما أنفجر مرة واحدة"]},{"t":"m","q":"لما بعصّب بيبان في","o":["صوتي","سكوتي التام","كلامي بيبقى حاد","بخرج من المكان"]},{"t":"m","q":"الوقت اللي بحتاجه أهدى بعد العصبية","o":["دقايق","ساعات","يوم أو أكتر","بيعتمد على السبب"]},{"t":"m","q":"حد قالي قبل كده إني بعصّب أكتر من اللازم","o":["أيوه وأنا متفق معاه","أيوه بس مش شايف كده","لأ محدش قالي","مش فاكر"]},{"t":"m","q":"الحاجات الصغيرة اللي بتوتر (زحمة، طابور، تأخير)","o":["ما بتأثرش فيّ","بتضايقني بس بعدّيها","بتخليني عصبي فعلاً","بتجنّب المواقف دي أصلاً"]},{"t":"m","q":"لما أزعل من الطرف التاني","o":["بقوله على طول","بستنى يلاحظ ويسأل","بقمّص وأبيّن إني زعلان من غير كلام","بحاول أعدّيها لوحدي"]},{"t":"m","q":"لما أكون زعلان وحد يسألني «مالك؟»","o":["بقول اللي جوايا","بقول «مفيش» وأنا زعلان","بقول «مش دلوقتي»","بيعتمد على مين اللي سأل"]},{"t":"m","q":"مدة الزعل الطبيعية عندي","o":["دقايق","ساعات","يوم","أكتر من يوم"]},{"t":"m","q":"اللي بيرجّعني من الزعل بسرعة","o":["كلمة حلوة أو اعتذار","هزار وتغيير الجو","نقاش هادي في اللي حصل","حاجة عملية تبيّن إنه مهتم"]},{"t":"m","q":"لما الطرف التاني يزعل ويقمّص","o":["بحاول أعرف السبب وأصالح","بستناه يهدى لوحده","بزعل أنا كمان","بحس إنه بيضغط عليّ"]},{"t":"m","q":"لما أكون متأكد من رأيي والطرف التاني عكسه","o":["أسمعه وأراجع نفسي","أفضل على رأيي بس من غير خصام","أفضل على رأيي لحد ما يقتنع","أسكت بس ما أغيّرش رأيي"]},{"t":"a","q":"أنا شخص بيغيّر رأيه بسهولة لما يشوف دليل مقنع"},{"t":"m","q":"لو اتفقنا على حاجة وأنا مش مقتنع تمامًا","o":["أنفّذها بارتياح","أنفّذها وأنا مضايق","أفضل أفتح الموضوع تاني","أماطل في التنفيذ"]},{"t":"m","q":"فيه ناس بتتقل شوية في التعامل أو الرد عشان الطرف التاني يحس بقيمتها — رأيي في ده","o":["أسلوب مش صح ومرهق للعلاقة","طبيعي وبيحصل من غير قصد","بيحصل مني فعلاً أحيانًا","بيحصل بشكل خفيف كنوع من الدلع"]},{"t":"m","q":"لو الطرف التاني اتقل عليّ في الرد أو التعامل","o":["أساله بصراحة عن السبب","أتقل عليه بنفس الطريقة","أستحمل وأستنى يرجع","بزعل وبيأثر عليّ جدًا"]},{"t":"m","q":"الاهتمام اللي بحتاجه فعلاً","o":["كلام وتواصل مستمر","أفعال أكتر من كلام","وجوده جنبي من غير كلام كتير","بحتاج مساحة أكتر من اهتمام"]},{"t":"m","q":"النقد المباشر ليّ","o":["بستحمله عادي","بيزعلني في اللحظة وبعدها بفكر فيه","بيأثر عليّ فترة طويلة","بعتبره اهتمام مش هجوم"]},{"t":"m","q":"المزاح اللي فيه تريقة عليّ","o":["بضحك عادي","بتضايق بس ما بينش","بتضايق وبقول","حسب اللي بيقوله ومين بيقوله"]},{"t":"m","q":"لما حد يمدحني","o":["بفرح وبشكره","بتكسف","بحس إنه بيجاملني","بحب أسمعه أكتر"]},{"t":"m","q":"في الخروج والاجتماعات","o":["بحب الزحمة والناس","بفضّل مجموعة صغيرة","بحب أفضل في البيت","حسب مزاجي في اليوم"]},{"t":"m","q":"لو خططنا اتغيّرت فجأة في آخر لحظة","o":["عادي وبتأقلم بسرعة","بيضايقني بس بعدّيها","بيوترني جدًا","بيعتمد على السبب"]},{"t":"m","q":"النظام والترتيب","o":["أساسي وبيريحني","مهم بس مش مهووس بيه","فوضوي شوية","بيتغيّر حسب الفترة"]},{"t":"m","q":"المواعيد","o":["بلتزم بيها بدقة","تأخير بسيط عادي عندي","بتأخر كتير وبعتذر","حسب أهمية الموعد"]},{"t":"m","q":"طريقتي في اتخاذ القرارات","o":["بفكر كتير قبل ما أقرر","بقرر بسرعة وبثق في حدسي","بستشير الأول","بأجّل القرار لآخر لحظة"]},{"t":"m","q":"الروتين والتكرار","o":["بيريحني","بمل بسرعة ومحتاج تغيير","بحب توازن بين الاتنين","بيعتمد على الحاجة نفسها"]},{"t":"m","q":"الفلوس والصرف","o":["بحسب كل جنيه","بصرف براحتي في حدود","بصرف بسهولة وبندم بعدين","بقتّر على نفسي وبصرف على غيري"]},{"t":"m","q":"الكرم مع الضيوف والناس","o":["أساسي عندي مهما كانت الظروف","في حدود المعقول","بيضايقني لو زاد عن اللزوم","حسب الظرف المالي"]},{"t":"m","q":"لو حصلت أزمة أو مشكلة كبيرة","o":["بفضل هادي وبدوّر على حل","بتوتر بس بتصرف","بيأثر عليّ نفسيًا فترة","بحاول ما أفكرش فيها"]},{"t":"m","q":"لو حد ضايقني في الشارع أو الشغل","o":["بتجاهل وأمشي","بواجه بهدوء","بواجه بحدة","بفضل مضايق طول اليوم"]},{"t":"m","q":"الكلام عن مشاعري","o":["بعبّر بسهولة","بعبّر بس بتكسف","بيصعب عليّ أوصفها بالكلام","بفضّل أبيّنها بأفعالي"]},{"t":"m","q":"طاقتي في اليوم","o":["نشيط من الصبح","بشتغل أحسن بالليل","بتقل بسرعة ومحتاج راحة","بتتغيّر حسب اليوم"]}]}];
+const OPEN_QS = [{"ax":11,"q":"اوصف نفسك في تلات كلمات — وبعدين اوصفني أنا في تلات كلمات."},{"ax":11,"q":"إيه أكتر طبع فيك عارف إنه محتاج تشتغل عليه؟"},{"ax":11,"q":"إيه الطبع اللي بيضايقك في الناس عمومًا؟"},{"ax":11,"q":"إيه اللي بيرجّع مزاجك بسرعة لما تكون متضايق؟"},{"ax":11,"q":"إيه الطبع اللي ورثته من أهلك وعاجبك؟ وإيه اللي مش عاجبك؟"},{"ax":11,"q":"إيه الحاجة اللي لو عملتها ليك تحس إني فاهمك فعلاً؟"}];
+const CODE_PREFIX = "M12";
+const CODE_MWIDTH = 2;
+
+
+/* ---------- prepare ---------- */
+const CLOSED = [];
+AXES.forEach(function (ax, ai) {
+  ax.index = ai;
+  ax.qs.forEach(function (q, qi) {
+    q.id = ai + "-" + qi;
+    q.axis = ai;
+    q.opts = q.t === "a" ? AGREE : q.o;
+    CLOSED.push(q);
+  });
+});
+const my = {};
+
+function esc(s) {
+  return String(s).replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");
+}
+function ar(n) {
+  return String(n).replace(/[0-9]/g, function (d) { return "٠١٢٣٤٥٦٧٨٩"[+d]; });
+}
+
+/* ---------- collapse extra axes (JS enhancement only) ---------- */
+function collapseExtras() {
+  for (let i = 1; i < AXES.length; i++) {
+    const el = document.getElementById("ax" + i);
+    if (el) el.classList.add("collapsed");
+  }
+}
+
+function toggleAxis(i) {
+  document.getElementById("ax" + i).classList.toggle("collapsed");
+}
+
+function isAnswered(q) {
+  const v = my[q.id];
+  if (v == null) return false;
+  return q.t === "a" ? true : v.length > 0;
+}
+
+function pick(input) {
+  const qid = input.name, oi = +input.value;
+  if (input.type === "radio") {
+    if (my[qid] === oi) { input.checked = false; delete my[qid]; }
+    else { my[qid] = oi; }
+  } else {
+    if (!my[qid]) my[qid] = [];
+    const idx = my[qid].indexOf(oi);
+    if (input.checked) { if (idx === -1) my[qid].push(oi); }
+    else if (idx !== -1) { my[qid].splice(idx, 1); }
+    if (my[qid].length === 0) delete my[qid];
+  }
+  update();
+}
+
+function update() {
+  let done = 0;
+  CLOSED.forEach(function (q) {
+    const answered = isAnswered(q);
+    if (answered) done++;
+    const t = document.querySelector('.tile[data-t="' + q.id + '"]');
+    if (t) { t.className = "tile" + (answered ? " done" : ""); }
+  });
+  AXES.forEach(function (ax, ai) {
+    let d = 0;
+    ax.qs.forEach(function (q) { if (isAnswered(q)) d++; });
+    document.getElementById("cnt" + ai).textContent = ar(d) + " / " + ar(ax.qs.length);
+  });
+  const pct = CLOSED.length ? Math.round((done / CLOSED.length) * 100) : 0;
+  document.getElementById("fill").style.width = pct + "%";
+  document.getElementById("progTxt").textContent = "جاوبت على " + ar(done) + " من " + ar(CLOSED.length) + " سؤال";
+  document.getElementById("myCode").value = makeCode();
+}
+
+function segWidth(q) {
+  return q.t === "a" ? 1 : CODE_MWIDTH;
+}
+
+function encodeSeg(q) {
+  if (q.t === "a") { return my[q.id] == null ? "-" : String(my[q.id]); }
+  const w = CODE_MWIDTH;
+  if (!my[q.id] || !my[q.id].length) return "-".repeat(w);
+  let mask = 0;
+  my[q.id].forEach(function (oi) { mask |= (1 << oi); });
+  return mask.toString(16).padStart(w, "0");
+}
+
+function decodeSeg(str, q) {
+  if (q.t === "a") { return str === "-" ? null : +str; }
+  if (str.indexOf("-") !== -1) return null;
+  const mask = parseInt(str, 16);
+  const arr = [];
+  q.opts.forEach(function (o, oi) { if (mask & (1 << oi)) arr.push(oi); });
+  return arr;
+}
+
+function makeCode() {
+  let s = CODE_PREFIX;
+  CLOSED.forEach(function (q) { s += encodeSeg(q); });
+  return s;
+}
+
+function expectedBodyLength() {
+  let n = 0;
+  CLOSED.forEach(function (q) { n += segWidth(q); });
+  return n;
+}
+
+function copyCode() {
+  const code = makeCode();
+  const ta = document.getElementById("myCode");
+  ta.value = code;
+  ta.select();
+  let ok = false;
+  try { ok = document.execCommand("copy"); } catch (e) { ok = false; }
+  if (navigator.clipboard) { navigator.clipboard.writeText(code).then(function () {}, function () {}); ok = true; }
+  window.getSelection().removeAllRanges();
+  alert(ok ? "الكود اتنسخ. ابعته للطرف التاني." : "انسخ الكود من الخانة اللي في آخر الصفحة.");
+}
+
+/* ---------- tabs ---------- */
+function showTab(k) {
+  const q = k === "q";
+  document.getElementById("panel-q").classList.toggle("active", q);
+  document.getElementById("panel-c").classList.toggle("active", !q);
+  document.getElementById("tab-q").setAttribute("aria-selected", q ? "true" : "false");
+  document.getElementById("tab-c").setAttribute("aria-selected", q ? "false" : "true");
+  window.scrollTo(0, 0);
+}
+
+/* ---------- compare ---------- */
+function clearCompare() {
+  document.getElementById("theirCode").value = "";
+  document.getElementById("cmpOut").innerHTML = "";
+  document.getElementById("cmpMsg").textContent = "";
+}
+
+function doCompare() {
+  const raw = document.getElementById("theirCode").value.trim().replace(/\s+/g, "");
+  const msg = document.getElementById("cmpMsg");
+  const out = document.getElementById("cmpOut");
+  out.innerHTML = "";
+  if (!raw) { msg.textContent = "حط الكود الأول."; return; }
+  if (raw.slice(0, CODE_PREFIX.length) !== CODE_PREFIX || raw.length !== CODE_PREFIX.length + expectedBodyLength()) {
+    msg.textContent = "الكود مش مظبوط. اتأكد إن الاتنين بتستخدموا نفس الملف، وإنك نسخت الكود كامل.";
+    return;
+  }
+  msg.textContent = "";
+  const body = raw.slice(CODE_PREFIX.length);
+  const A = (document.getElementById("nameA").value || "أنا").trim();
+  const B = (document.getElementById("nameB").value || "الطرف التاني").trim();
+
+  let same = 0, diff = 0, talk = 0, both = 0;
+  const perAxis = AXES.map(function () { return []; });
+  const diffs = AXES.map(function () { return []; });
+
+  let cursor = 0;
+  CLOSED.forEach(function (q) {
+    const w = segWidth(q);
+    const theirs = decodeSeg(body.slice(cursor, cursor + w), q);
+    cursor += w;
+    const mine = my[q.id] == null ? null : my[q.id];
+    let state = "none";
+    if (mine != null && theirs != null) {
+      both++;
+      let isSame, hesitant = false;
+      if (q.t === "a") {
+        isSame = mine === theirs;
+        hesitant = mine >= 2 || theirs >= 2;
+      } else {
+        const m1 = mine.slice().sort().join(","), m2 = theirs.slice().sort().join(",");
+        isSame = m1 === m2;
+      }
+      if (isSame) { same++; state = hesitant ? "talk" : "same"; if (hesitant) talk++; }
+      else { diff++; state = "diff"; diffs[q.axis].push({ q: q, mine: mine, theirs: theirs }); }
+    } else if (mine != null || theirs != null) {
+      state = "half";
+      diffs[q.axis].push({ q: q, mine: mine, theirs: theirs, partial: true });
+    }
+    perAxis[q.axis].push(state);
+  });
+
+  const pct = both ? Math.round((same / both) * 100) : 0;
+  let html = '<div class="box"><h2>النتيجة</h2>' +
+    '<div class="score">' +
+    '<div class="stat s-same"><b>' + ar(pct) + '%</b><small>نسبة الاتفاق</small></div>' +
+    '<div class="stat s-diff"><b>' + ar(diff) + '</b><small>سؤال مختلفين فيه</small></div>' +
+    '<div class="stat s-talk"><b>' + ar(talk) + '</b><small>الاتنين متردد فيه</small></div>' +
+    "</div>" +
+    '<div class="legend">' +
+    '<span><i style="background:var(--teal)"></i>متفقين</span>' +
+    '<span><i style="background:var(--brick)"></i>مختلفين</span>' +
+    '<span><i style="background:#e8c072"></i>الاتنين متردد</span>' +
+    '<span><i style="background:#e6ecec;border:1px solid #d6dfe0"></i>ناقص إجابة</span>' +
+    "</div></div>";
+
+  AXES.forEach(function (ax, ai) {
+    let tiles = "";
+    perAxis[ai].forEach(function (s) {
+      const cls = s === "same" ? "same" : s === "diff" ? "diff" : s === "talk" ? "talk" : "";
+      tiles += '<span class="tile ' + cls + '"></span>';
+    });
+    const bothN = perAxis[ai].filter(function (s) { return s === "same" || s === "talk" || s === "diff"; }).length;
+    const sameN = perAxis[ai].filter(function (s) { return s === "same" || s === "talk"; }).length;
+    let list = "";
+    if (bothN === 0) {
+      list = '<p class="empty">المحور ده لسه فاضي — واحد منكم على الأقل مجاوبش فيه، فمفيش مقارنة.</p>';
+    } else if (!diffs[ai].length) {
+      list = '<p class="empty">متفقين في كل اللي جاوبتوه هنا (' + ar(bothN) + ' سؤال). 👌</p>';
+    } else {
+      list = '<p class="sub" style="margin:0 0 6px">قارنّا ' + ar(bothN) + ' سؤال، متفقين في ' + ar(sameN) + '. المختلف عليه:</p>';
+      diffs[ai].forEach(function (d) {
+        function fmt(v) {
+          if (v == null) return "لسه مجاوبتش";
+          if (d.q.t === "a") return d.q.opts[v];
+          return v.map(function (oi) { return d.q.opts[oi]; }).join(" + ");
+        }
+        const mineTxt = fmt(d.mine);
+        const theirTxt = fmt(d.theirs);
+        list += '<div class="diff"><p>' + esc(d.q.q) + '</p><div class="ans">' +
+          '<span class="pill a"><b>' + esc(A) + ":</b> " + esc(mineTxt) + "</span>" +
+          '<span class="pill b"><b>' + esc(B) + ":</b> " + esc(theirTxt) + "</span>" +
+          "</div></div>";
+      });
+    }
+    html += '<div class="box"><h2>' + esc(ax.key) + "</h2>" +
+      '<div class="strip" style="margin:0 0 12px">' + tiles + "</div>" + list + "</div>";
+  });
+
+  html += '<div class="box"><h2>الخلاصة</h2><p class="sub" style="margin:0">اللي بالأحمر مش مشكلة في حد ذاته — الخطر بيكون في اللي محدش اتكلم فيه. خدوا محور واحد كل قعدة، وابدأوا باللي فيه أكتر اختلاف.</p></div>';
+  out.innerHTML = html;
+  try { out.scrollIntoView({ behavior: "smooth", block: "start" }); } catch (e) { /* ok */ }
+}
+
+collapseExtras();
+try { update(); } catch (e) { /* الأسئلة تفضل ظاهرة على أي حال */ }
+</script>
+</body>
+</html>
